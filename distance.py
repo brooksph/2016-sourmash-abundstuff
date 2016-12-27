@@ -2,6 +2,7 @@
 import sys
 import numpy
 import math
+import gzip
 
 def main():
     import argparse
@@ -17,7 +18,12 @@ def main():
     counts_list = []
     for filename in counts_files:
         print('reading:', filename)
-        counts = open(filename).readlines()[1:]
+        if filename.endswith('.gz'):
+            fp = gzip.open(filename)
+        else:
+            fp = open(filename)
+
+        counts = fp.readlines()[1:]
         counts = [ int(x.split()[1]) for x in counts ]
         counts = numpy.array(counts)
         counts = counts / math.sqrt(numpy.dot(counts, counts))
