@@ -34,7 +34,10 @@ def main():
     labeltext = []
     for i, C1 in enumerate(counts_list):
         for j, C2 in enumerate(counts_list):
-            D[i][j] = numpy.dot(C1, C2)
+            prod = numpy.dot(C1, C2)
+            prod = min(1.0, prod)
+            distance = 2*math.acos(prod) / math.pi
+            D[i][j] = 1.0 - distance
 
         labeltext.append(counts_files[i])
         i += 1
